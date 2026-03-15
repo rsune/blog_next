@@ -4,11 +4,17 @@ on:
   push:
     branches:
       - main
-  workflow_dispath:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 env:
   NODE_VERSION: 'lts/*'
   BUILD_TIME: ${{ github.event.head_commit.timestamp }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   build:
@@ -16,27 +22,31 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Show Platform Info
         run: |
           echo "Node.js: $(node -v)"
           echo "npm: $(npm -v)"
-          echo "Ubuntu: $(cat /etc/lsb_release | grep DESCRIPTION)"
+          echo "Ubuntu: $(cat /etc/lsb-release | grep DESCRIPTION)"
 
       - name: Install Dependencies
         run: |
-          npm install
-          npm install -g hexo-cli
+          pnpm install --frozen-lockfile
 
       - name: Generate
-        run: hexo generate
+        run: pnpm exec hexo clean && pnpm exec hexo generate
 
       - name: Deploy to public branch
         uses: peaceiris/actions-gh-pages@v4

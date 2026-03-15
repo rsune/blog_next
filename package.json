@@ -1,12 +1,17 @@
 {
   "name": "hexo-blog",
   "version": "1.0.0",
+  "packageManager":"pnpm@10.28.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
+    "build": "hexo clean && hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server"
+  },
+  "engines":{
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
   },
   "hexo": {
     "version": "8.1.1"
