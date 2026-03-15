@@ -1,2 +1,1 @@
-# blog_next
-The repository for my personal blog.
+My personal blog, built with hexo framework and butterfly theme.
