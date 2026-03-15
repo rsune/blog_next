@@ -1,0 +1,8 @@
+User-agent: Baiduspider
+
+Sitemap: https://rsune.top/baidusitemap.xml
+
+User-agent: *
+Disallow:
+
+Sitemap: https://rsune.top/sitemap.xml
