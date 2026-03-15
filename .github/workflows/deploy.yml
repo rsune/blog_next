@@ -1,0 +1,50 @@
+name: Hexo Auto Build & Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispath:
+
+env:
+  NODE_VERSION: 'lts/*'
+  BUILD_TIME: ${{ github.event.head_commit.timestamp }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Show Platform Info
+        run: |
+          echo "Node.js: $(node -v)"
+          echo "npm: $(npm -v)"
+          echo "Ubuntu: $(cat /etc/lsb_release | grep DESCRIPTION)"
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g hexo-cli
+
+      - name: Generate
+        run: hexo generate
+
+      - name: Deploy to public branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: public
+          force_orphan: true
+          full_commit_message: 'Deploy from ${{ github.sha }}'
+
+
