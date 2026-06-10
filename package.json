@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "hexo": "^8.0.0",
-    "hexo-butterfly-extjs": "^1.5.5",
+    "hexo-butterfly-extjs": "^1.5.6",
     "hexo-filter-nofollow": "^2.0.2",
     "hexo-generator-archive": "^2.0.0",
     "hexo-generator-baidu-sitemap": "^0.1.9",
